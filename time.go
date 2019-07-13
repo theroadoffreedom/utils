@@ -3,6 +3,11 @@ package utils
 import (
 	"fmt"
 	"time"
+	"strings"
+	"strconv"
+	"errors"
+
+	"github.com/go-shadow/moment"
 )
 
 const (
@@ -56,4 +61,46 @@ func GetDayFromTimestamp(t int64) string {
 // return current string year
 func GetCurrentYear() string {
 	return GetYearFromTimestamp(GetCurrentTimestamp())
+}
+
+// return current month, like 2019-07
+func GetCurrentMonth() string {
+	m := moment.New().Month()	
+	y := GetCurrentYear()
+	im := int32(m)
+	if im < 10 {
+		return fmt.Sprintf("%s-0%d", y, int32(m))
+	}
+	return fmt.Sprintf("%s-%d", y, int32(m))
+}
+
+// return next month, like 2019-08
+func GetNextMonth(currentMonth string) (string, error) {
+
+	str := strings.Split(currentMonth,"-")
+	if len(str) != 2 {
+		return "", errors.New("current month format is error")
+	}
+	mStr := str[1]
+	yStr := str[0]
+
+	mm := moment.New()
+	y,err:=strconv.Atoi(yStr)
+	if err != nil {
+		return "",err
+	}
+	_mm := mm.SetYear(y)
+	m, err := strconv.Atoi(mStr)
+	if err != nil {
+		return "", err
+	}
+	__mm := _mm.SetMonth(time.Month(m))
+	___mm := __mm.AddMonths(1)
+	ny := ___mm.Year()
+	nm := int32(___mm.Month())
+
+	if nm < 10 {
+		return fmt.Sprintf("%d-0%d", ny, int32(nm)), nil
+	}
+	return fmt.Sprintf("%d-%d", ny, int32(nm)),nil
 }
