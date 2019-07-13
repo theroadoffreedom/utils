@@ -37,3 +37,49 @@ func TestGetNextMonth(t *testing.T) {
 		mStr = m
 	}
 }
+
+func TestIsMonthPass(t *testing.T) {
+	
+	p, err := IsMonthPass("2019-01","2019-01")
+	if err != nil {
+		t.Error(err.Error())
+		return
+	}
+	if p {
+		t.Error("not pass")
+		return
+	}
+
+	p, err = IsMonthPass("2019-01","2018-12")
+	if err != nil {
+		t.Error(err.Error())
+		return
+	}
+	if !p {
+		t.Error("not pass")
+		return
+	}
+
+
+	p, err = IsMonthPass("2018-12","2019-01")
+	if err != nil {
+		t.Error(err.Error())
+		return
+	}
+	if p {
+		t.Error("not pass")
+		return
+	}
+
+
+	p, err = IsMonthPass("2018-12","2018-11")
+	if err != nil {
+		t.Error(err.Error())
+		return
+	}
+	if !p {
+		t.Error("not pass")
+		return
+	}
+	t.Log("test success")
+}

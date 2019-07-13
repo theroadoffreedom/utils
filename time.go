@@ -104,3 +104,45 @@ func GetNextMonth(currentMonth string) (string, error) {
 	}
 	return fmt.Sprintf("%d-%d", ny, int32(nm)),nil
 }
+
+// return pass or not
+func IsMonthPass(srcMonth string, dstMonth string) (bool, error) {
+	// compare year
+	str := strings.Split(srcMonth,"-")
+	if len(str) != 2 {
+		return false, errors.New("current month format is error")
+	}
+	mSrc,err:= strconv.Atoi(str[1])
+	if err != nil {
+		return false, err
+	}
+	ySrc,err:= strconv.Atoi(str[0])
+	if err != nil {
+		return false, err
+	}
+	str = strings.Split(dstMonth,"-")
+	if len(str) != 2 {
+		return false, errors.New("current month format is error")
+	}
+	mDst,err:= strconv.Atoi(str[1])
+	if err != nil {
+		return false, err
+	}
+	yDst,err:= strconv.Atoi(str[0])
+	if err != nil {
+		return false, err
+	}
+
+	if ySrc > yDst {
+		return true,nil
+	}
+	if ySrc < yDst {
+		return false,nil
+	}
+
+	// year equal
+	if mSrc > mDst {
+		return true, nil
+	}
+	return false,nil
+}
