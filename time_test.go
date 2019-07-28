@@ -6,6 +6,16 @@ import (
 	//	"time"
 )
 
+func TestGetCurrentDayAlignTimestamp(t *testing.T) {
+	s := GetCurrentDayAlignTimestamp()
+	t.Log(ToHumanString(s))
+}
+
+func TestGetCurrentHourOf24(t *testing.T) {
+	h := GetCurrentHourOf24()
+	t.Log(h)
+}
+
 func TestGetYearFromTimestamp(t *testing.T) {
 
 	tt, err := Translate2Timestamp("2018-10-19 15:04:05", "2006-01-02 15:04:05")

@@ -18,6 +18,10 @@ func GetCurrentTimestamp() int64 {
 	return time.Now().Unix()
 }
 
+func GetCurrentHourOf24() int {
+	return moment.New().Hour()
+}
+
 func Translate2Timestamp(strDate string, format string) (int64, error) {
 	t, err := time.Parse(format, strDate)
 	if err != nil {
@@ -26,7 +30,19 @@ func Translate2Timestamp(strDate string, format string) (int64, error) {
 	return t.Unix(), nil
 }
 
+// return now(), format 2019-01-01 timestamp
+func GetCurrentDayAlignTimestamp() int64 {
+	alignStr := fmt.Sprintf("%s-%s-%sT00:00:00+08:00", GetCurrentYear(), GetCurrentMonthOnly(), GetCurrentDayOnly())
+	tt, err := Translate2Timestamp(alignStr, time.RFC3339)
+	if err != nil {
+		fmt.Println(alignStr)
+		fmt.Println(err)
+	}
+	return tt
+}
+
 func AlignDailyTimestamp(t int64) int64 {
+
 
 	//return t - (t % int64(DAY_TIMESTAMP_COUNT))
 	alignStr := fmt.Sprintf("%s-%s-%sT00:00:00+08:00", GetYearFromTimestamp(t), GetMonthFromTimestamp(t), GetDayFromTimestamp(t))
@@ -61,6 +77,24 @@ func GetDayFromTimestamp(t int64) string {
 // return current string year
 func GetCurrentYear() string {
 	return GetYearFromTimestamp(GetCurrentTimestamp())
+}
+
+func GetCurrentMonthOnly() string {
+	m := moment.New().Month()	
+	im := int32(m)
+	if im < 10 {
+		return fmt.Sprintf("0%d", im)
+	}
+	return fmt.Sprintf("%d",im)
+}
+
+func GetCurrentDayOnly() string {
+	d := moment.New().DayOfMonth()
+	id := int32(d)
+	if id < 10 {
+		return fmt.Sprintf("0%d", id)
+	}
+	return fmt.Sprintf("%d", id) 
 }
 
 // return current month, like 2019-07
