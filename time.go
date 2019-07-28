@@ -54,6 +54,55 @@ func AlignDailyTimestamp(t int64) int64 {
 	return tt
 }
 
+// return 2019-07-28 18:30:03
+func TimeFormatDBString(t int64) string {
+	tt := time.Unix(t, 0)
+	year := tt.Year()
+	month := tt.Month()
+	strMon := ""
+	strDay := ""
+	strHour := ""
+	strMin := ""
+	strSec := ""
+	if month < 10 {
+		strMon = fmt.Sprintf("0%d",month)
+	} else {
+		strMon = fmt.Sprintf("%d",month)
+	}
+
+	day := tt.Day()
+	if day < 10 {
+		strDay = fmt.Sprintf("0%d",day)
+	} else {
+		strDay = fmt.Sprintf("%d",day)
+	}
+
+	hour := tt.Hour()
+	if hour < 10 {
+		strHour = fmt.Sprintf("0%d",hour)
+	} else {
+		strHour = fmt.Sprintf("%d",hour)
+	}
+
+	min := tt.Minute()
+	if min < 10 {
+		strMin = fmt.Sprintf("0%d",min)
+	} else {
+		strMin = fmt.Sprintf("%d",min)
+	}
+
+
+	sec := tt.Second()
+	if sec < 10 {
+		strSec = fmt.Sprintf("0%d",sec)
+	} else {
+		strSec = fmt.Sprintf("%d",sec)
+	}
+
+	// return 2019-07-28 18:30:03
+	return fmt.Sprintf("%d-%s-%s %s:%s:%s",year,strMon,strDay, strHour,strMin, strSec)
+}
+
 func ToHumanString(t int64) string {
 	tt := time.Unix(t, 0)
 	return tt.String()

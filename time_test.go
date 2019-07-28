@@ -3,8 +3,12 @@ package utils
 import (
 	"fmt"
 	"testing"
-	//	"time"
+	"time"
 )
+
+func TestTimeFormatDBString(t *testing.T) {
+	t.Log(TimeFormatDBString(time.Now().Unix()))
+}
 
 func TestGetCurrentDayAlignTimestamp(t *testing.T) {
 	s := GetCurrentDayAlignTimestamp()
