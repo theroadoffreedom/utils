@@ -1,11 +1,11 @@
 package utils
 
 import (
-	"fmt"
-	"time"
-	"strings"
-	"strconv"
 	"errors"
+	"fmt"
+	"strconv"
+	"strings"
+	"time"
 
 	"github.com/go-shadow/moment"
 )
@@ -14,14 +14,17 @@ const (
 	DAY_TIMESTAMP_COUNT = 24 * 60 * 60
 )
 
+// get current unix timestamp, second
 func GetCurrentTimestamp() int64 {
 	return time.Now().Unix()
 }
 
+// get current hour number, like 9,15,24
 func GetCurrentHourOf24() int {
 	return moment.New().Hour()
 }
 
+// translate time using the format that you indicate , and return timestamp
 func Translate2Timestamp(strDate string, format string) (int64, error) {
 	t, err := time.Parse(format, strDate)
 	if err != nil {
@@ -42,7 +45,6 @@ func GetCurrentDayAlignTimestamp() int64 {
 }
 
 func AlignDailyTimestamp(t int64) int64 {
-
 
 	//return t - (t % int64(DAY_TIMESTAMP_COUNT))
 	alignStr := fmt.Sprintf("%s-%s-%sT00:00:00+08:00", GetYearFromTimestamp(t), GetMonthFromTimestamp(t), GetDayFromTimestamp(t))
@@ -65,42 +67,41 @@ func TimeFormatDBString(t int64) string {
 	strMin := ""
 	strSec := ""
 	if month < 10 {
-		strMon = fmt.Sprintf("0%d",month)
+		strMon = fmt.Sprintf("0%d", month)
 	} else {
-		strMon = fmt.Sprintf("%d",month)
+		strMon = fmt.Sprintf("%d", month)
 	}
 
 	day := tt.Day()
 	if day < 10 {
-		strDay = fmt.Sprintf("0%d",day)
+		strDay = fmt.Sprintf("0%d", day)
 	} else {
-		strDay = fmt.Sprintf("%d",day)
+		strDay = fmt.Sprintf("%d", day)
 	}
 
 	hour := tt.Hour()
 	if hour < 10 {
-		strHour = fmt.Sprintf("0%d",hour)
+		strHour = fmt.Sprintf("0%d", hour)
 	} else {
-		strHour = fmt.Sprintf("%d",hour)
+		strHour = fmt.Sprintf("%d", hour)
 	}
 
 	min := tt.Minute()
 	if min < 10 {
-		strMin = fmt.Sprintf("0%d",min)
+		strMin = fmt.Sprintf("0%d", min)
 	} else {
-		strMin = fmt.Sprintf("%d",min)
+		strMin = fmt.Sprintf("%d", min)
 	}
-
 
 	sec := tt.Second()
 	if sec < 10 {
-		strSec = fmt.Sprintf("0%d",sec)
+		strSec = fmt.Sprintf("0%d", sec)
 	} else {
-		strSec = fmt.Sprintf("%d",sec)
+		strSec = fmt.Sprintf("%d", sec)
 	}
 
 	// return 2019-07-28 18:30:03
-	return fmt.Sprintf("%d-%s-%s %s:%s:%s",year,strMon,strDay, strHour,strMin, strSec)
+	return fmt.Sprintf("%d-%s-%s %s:%s:%s", year, strMon, strDay, strHour, strMin, strSec)
 }
 
 func ToHumanString(t int64) string {
@@ -129,12 +130,12 @@ func GetCurrentYear() string {
 }
 
 func GetCurrentMonthOnly() string {
-	m := moment.New().Month()	
+	m := moment.New().Month()
 	im := int32(m)
 	if im < 10 {
 		return fmt.Sprintf("0%d", im)
 	}
-	return fmt.Sprintf("%d",im)
+	return fmt.Sprintf("%d", im)
 }
 
 func GetCurrentDayOnly() string {
@@ -143,12 +144,12 @@ func GetCurrentDayOnly() string {
 	if id < 10 {
 		return fmt.Sprintf("0%d", id)
 	}
-	return fmt.Sprintf("%d", id) 
+	return fmt.Sprintf("%d", id)
 }
 
 // return current month, like 2019-07
 func GetCurrentMonth() string {
-	m := moment.New().Month()	
+	m := moment.New().Month()
 	y := GetCurrentYear()
 	im := int32(m)
 	if im < 10 {
@@ -160,7 +161,7 @@ func GetCurrentMonth() string {
 // return next month, like 2019-08
 func GetNextMonth(currentMonth string) (string, error) {
 
-	str := strings.Split(currentMonth,"-")
+	str := strings.Split(currentMonth, "-")
 	if len(str) != 2 {
 		return "", errors.New("current month format is error")
 	}
@@ -168,9 +169,9 @@ func GetNextMonth(currentMonth string) (string, error) {
 	yStr := str[0]
 
 	mm := moment.New()
-	y,err:=strconv.Atoi(yStr)
+	y, err := strconv.Atoi(yStr)
 	if err != nil {
-		return "",err
+		return "", err
 	}
 	_mm := mm.SetYear(y)
 	m, err := strconv.Atoi(mStr)
@@ -185,47 +186,47 @@ func GetNextMonth(currentMonth string) (string, error) {
 	if nm < 10 {
 		return fmt.Sprintf("%d-0%d", ny, int32(nm)), nil
 	}
-	return fmt.Sprintf("%d-%d", ny, int32(nm)),nil
+	return fmt.Sprintf("%d-%d", ny, int32(nm)), nil
 }
 
 // return pass or not
 func IsMonthPass(srcMonth string, dstMonth string) (bool, error) {
 	// compare year
-	str := strings.Split(srcMonth,"-")
+	str := strings.Split(srcMonth, "-")
 	if len(str) != 2 {
 		return false, errors.New("current month format is error")
 	}
-	mSrc,err:= strconv.Atoi(str[1])
+	mSrc, err := strconv.Atoi(str[1])
 	if err != nil {
 		return false, err
 	}
-	ySrc,err:= strconv.Atoi(str[0])
+	ySrc, err := strconv.Atoi(str[0])
 	if err != nil {
 		return false, err
 	}
-	str = strings.Split(dstMonth,"-")
+	str = strings.Split(dstMonth, "-")
 	if len(str) != 2 {
 		return false, errors.New("current month format is error")
 	}
-	mDst,err:= strconv.Atoi(str[1])
+	mDst, err := strconv.Atoi(str[1])
 	if err != nil {
 		return false, err
 	}
-	yDst,err:= strconv.Atoi(str[0])
+	yDst, err := strconv.Atoi(str[0])
 	if err != nil {
 		return false, err
 	}
 
 	if ySrc > yDst {
-		return true,nil
+		return true, nil
 	}
 	if ySrc < yDst {
-		return false,nil
+		return false, nil
 	}
 
 	// year equal
 	if mSrc > mDst {
 		return true, nil
 	}
-	return false,nil
+	return false, nil
 }

@@ -6,8 +6,8 @@ import (
 )
 
 func TestIsFileExist(t *testing.T) {
-	
-	tmpFile := "./tmp_file"		
+
+	tmpFile := "./tmp_file"
 	exist, err := IsFileExist(tmpFile)
 	if err != nil {
 		t.Error(err.Error())

@@ -32,7 +32,6 @@ func TestGetYearFromTimestamp(t *testing.T) {
 	fmt.Println(GetDayFromTimestamp(tt))
 }
 
-
 func TestGetCurrentMonth(t *testing.T) {
 	mStr := GetCurrentMonth()
 	t.Log(mStr)
@@ -41,7 +40,7 @@ func TestGetCurrentMonth(t *testing.T) {
 func TestGetNextMonth(t *testing.T) {
 
 	mStr := GetCurrentMonth()
-	for i:= 0; i<15; i++ {
+	for i := 0; i < 15; i++ {
 		m, err := GetNextMonth(mStr)
 		if err != nil {
 			t.Error(err.Error())
@@ -53,8 +52,8 @@ func TestGetNextMonth(t *testing.T) {
 }
 
 func TestIsMonthPass(t *testing.T) {
-	
-	p, err := IsMonthPass("2019-01","2019-01")
+
+	p, err := IsMonthPass("2019-01", "2019-01")
 	if err != nil {
 		t.Error(err.Error())
 		return
@@ -64,7 +63,7 @@ func TestIsMonthPass(t *testing.T) {
 		return
 	}
 
-	p, err = IsMonthPass("2019-01","2018-12")
+	p, err = IsMonthPass("2019-01", "2018-12")
 	if err != nil {
 		t.Error(err.Error())
 		return
@@ -74,8 +73,7 @@ func TestIsMonthPass(t *testing.T) {
 		return
 	}
 
-
-	p, err = IsMonthPass("2018-12","2019-01")
+	p, err = IsMonthPass("2018-12", "2019-01")
 	if err != nil {
 		t.Error(err.Error())
 		return
@@ -85,8 +83,7 @@ func TestIsMonthPass(t *testing.T) {
 		return
 	}
 
-
-	p, err = IsMonthPass("2018-12","2018-11")
+	p, err = IsMonthPass("2018-12", "2018-11")
 	if err != nil {
 		t.Error(err.Error())
 		return
